@@ -104,7 +104,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // Register the receiver
         IntentFilter filter = new IntentFilter(TrafficService.ACTION_UPDATE_STATS);
-        registerReceiver(statsReceiver, filter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {  // Android 13 and above
+            registerReceiver(statsReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(statsReceiver, filter); // Older versions
+        }
+
     }
 
     @Override
